@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외부 브라우저로 열기</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f8f9fa;
+    }
+    h2 {
+      font-size: 22px;
+      color: #333;
+    }
+    p {
+      font-size: 16px;
+      color: #555;
+    }
+    .btn {
+      display: none;
+      margin: 16px auto;
+      padding: 14px 24px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 320px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔓 외부 브라우저에서 열어주세요</h2>
+  <p>카카오톡 안에서는 일부 기능이 제한될 수 있어요.<br>아래 버튼을 눌러 외부 브라우저에서 다시 열어주세요!</p>
+
+  <a id="btn-samsung" class="btn" href="intent://signature645o.com/login#Intent;scheme=https;package=com.sec.android.app.sbrowser;end;">
+    📱 삼성인터넷으로 열기
+  </a>
+
+  <a id="btn-chrome" class="btn" href="intent://signature645o.com/login#Intent;scheme=https;package=com.android.chrome;end;">
+    🌐 크롬으로 열기
+  </a>
+
+  <a id="btn-ios" class="btn" href="https://signature645o.com/login">
+    🍎 iPhone: 사파리에서 열기
+  </a>
+
+  <script>
+    const ua = navigator.userAgent.toLowerCase();
+    const isKakao = ua.includes("kakaotalk");
+    const isAndroid = ua.includes("android");
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+
+    if (isKakao && isAndroid) {
+      // 삼성인터넷 우선 자동 시도
+      location.href = "intent://signature645o.com/login#Intent;scheme=https;package=com.sec.android.app.sbrowser;end;";
+      // 실패 대비 버튼 표시
+      setTimeout(() => {
+        document.getElementById('btn-samsung').style.display = 'block';
+        document.getElementById('btn-chrome').style.display = 'block';
+      }, 2000);
+    } else if (isKakao && isIOS) {
+      document.getElementById('btn-ios').style.display = 'block';
+    } else {
+      // 외부 브라우저일 경우 바로 이동
+      location.href = "https://signature645o.com/login";
+    }
+  </script>
+</body>
+</html>
